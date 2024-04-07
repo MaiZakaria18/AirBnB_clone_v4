@@ -1,55 +1,27 @@
-$(document).ready(function() {
-    // Variable to store Amenity IDs
-    var checkedAmenities = {};
-
-    // Function to update the h4 tag inside the div Amenities with the list of Amenities checked
-    function updateAmenitiesList() {
-        var amenitiesList = Object.values(checkedAmenities).join(", ");
-        $(".amenities h4").text("Amenities: " + amenitiesList);
+// checkbox and display amenities
+$(function () {
+  $.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
+    if (data['status'] === 'OK') {
+      $('DIV#api_status').addClass('available');
+    } else {
+      $('DIV#api_status').removeClass('available');
     }
+  });
 
-    // Listen for changes on each input checkbox tag
-    $(".amenities input[type='checkbox']").change(function() {
-        var amenityId = $(this).data('id');
-        var amenityName = $(this).data('name');
-
-        // If the checkbox is checked, store the Amenity ID in the variable
-        if ($(this).is(":checked")) {
-            checkedAmenities[amenityId] = amenityName;
-        } 
-        // If the checkbox is unchecked, remove the Amenity ID from the variable
-        else {
-            delete checkedAmenities[amenityId];
-        }
-
-        // Update the h4 tag inside the div Amenities with the list of Amenities checked
-        updateAmenitiesList();
-    });
-
-    // Function to update the status of the API
-    function updateAPIStatus() {
-        // Make an AJAX request to get the API status
-        $.ajax({
-            url: 'http://0.0.0.0:5001/api/v1/status/',
-            type: 'GET',
-            success: function(response) {
-                // Check if the status is "OK"
-                if (response.status === "OK") {
-                    // Add the class "available" to the div#api_status
-                    $('#api_status').addClass('api-status');
-                } else {
-                    // Remove the class "available" from the div#api_status
-                    $('#api_status').removeClass('api-status');
-                }
-            },
-            error: function(error) {
-                console.error('Error:', error);
-                // Remove the class "available" from the div#api_status
-                $('#api_status').removeClass('api-status');
-            }
-        });
+  let dict = {};
+  $('input').change(function () {
+    if (this.checked) {
+      dict[($(this).attr('data-id'))] = $(this).attr('data-name');
+    } else {
+      delete dict[$(this).attr('data-id')];
     }
-
-    // Call the function to update the API status when the document is ready
-    updateAPIStatus();
+    let arr = '';
+    let separator = '';
+    for (let i in dict) {
+      arr += separator;
+      arr += dict[i];
+      separator = ', ';
+    }
+    $('div.amenities h4').text(arr);
+  });
 });
