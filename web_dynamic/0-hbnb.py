@@ -41,7 +41,7 @@ def hbnb():
                            states=st_ct,
                            amenities=amenities,
                            places=places,
-                           chache_id = uid)
+                           cache_id=uid)
 
 
 if __name__ == "__main__":
