@@ -8,10 +8,12 @@
     <link rel="stylesheet" type="text/css" href="../static/styles/3-footer.css?{{ cache_id }}">
     <link rel="stylesheet" type="text/css" href="../static/styles/6-filters.css?{{ cache_id }}">
     <link type="text/css" rel="stylesheet" href="../static/styles/8-places.css?{{ cache_id }}">
-    <link rel="icon" href="{{ url_for('static',filename='images/icon.png') }}?{{ cache_id }}" />
-    <SCRIPT src="https://code.jquery.com/jquery-3.2.1.min.js"></SCRIPT>
-    <SCRIPT type="text/javascript" src="{{ url_for('static',filename='scripts/1-hbnb.js') }}?{{ chache_id }}"></SCRIPT>
+    <link rel="icon" href="../static/images/icon.png" />
     <title>HBnB</title>
+    <!-- Import jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Import 1-hbnb.js -->
+    <script src="../static/scripts/1-hbnb.js?{{ cache_id }}"></script>
 </head>
 
 <body>
@@ -45,7 +47,8 @@
                     <ul>
                         {% for amenity in amenities %}
                         <li>
-                            <input type="checkbox" style="position: absolute; left: 10px;" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}">
+                            <!-- Add input checkbox -->
+                            <input type="checkbox" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}">
                             {{ amenity.name }}
                         </li>
                         {% endfor %}
@@ -67,8 +70,10 @@
                 </div>
                 <div class="information">
                     <div class="max_guest">{{ place.max_guest }} Guest{% if place.max_guest != 1 %}s{% endif %}</div>
-                    <div class="number_rooms">{{ place.number_rooms }} Bedroom{% if place.number_rooms != 1 %}s{% endif %}</div>
-                    <div class="number_bathrooms">{{ place.number_bathrooms }} Bathroom{% if place.number_bathrooms != 1 %}s{% endif %}</div>
+                    <div class="number_rooms">{{ place.number_rooms }} Bedroom{% if place.number_rooms != 1 %}s{% endif
+                        %}</div>
+                    <div class="number_bathrooms">{{ place.number_bathrooms }} Bathroom{% if place.number_bathrooms != 1
+                            %}s{% endif %}</div>
                 </div>
                 <div class="user">
                     <b>Owner:</b> {{ place.user.first_name }} {{ place.user.last_name }}
