@@ -36,16 +36,16 @@ $(document).ready(function() {
                 // Check if the status is "OK"
                 if (response.status === "OK") {
                     // Add the class "available" to the div#api_status
-                    $('#api_status').addClass('available');
+                    $('#api_status').addClass('api-status');
                 } else {
                     // Remove the class "available" from the div#api_status
-                    $('#api_status').removeClass('available');
+                    $('#api_status').removeClass('api-status');
                 }
             },
             error: function(error) {
                 console.error('Error:', error);
                 // Remove the class "available" from the div#api_status
-                $('#api_status').removeClass('available');
+                $('#api_status').removeClass('api-status');
             }
         });
     }
