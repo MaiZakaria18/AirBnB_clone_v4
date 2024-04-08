@@ -1,0 +1,39 @@
+let dict = [];
+$(document).ready(function () {
+  $('INPUT[type=checkbox]').click(function () {
+    if (this.checked) {
+      dict.push($(this).data('name'));
+    } else {
+      dict.splice(dict.indexOf($(this).data('name')), 1);
+    }
+    $('.amenities h4').text(dict.join(', '));
+  });
+
+  $('button').click(function () {
+    $.ajax({
+      type: 'POST',
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({ amenities: dict }),
+      success: function (places) {
+        $('.places').empty(); // Clear existing places
+        for (let i = 0; i < places.length; i++) {
+          let article = '<article> <h2>' + places[i].name + '</h2><div class="price_by_night"><p>' + places[i].price_by_night + '</p></div><div class="information"><div class="max_guest"><div class="guest_image"></div><p>' + places[i].max_guest + '</p></div><div class="number_rooms"><div class="bed_image"></div><p>' + places[i].number_rooms + '</p></div><div class="number_bathrooms"><div class="bath_image"></div><p>' + places[i].number_bathrooms + '</p></div></div><div class="description"><p>' + places[i].description + '</p></div> </article>';
+          $('.places').append(article);
+        }
+      },
+      error: function (error) {
+        console.error('Error:', error);
+      }
+    });
+  });
+});
+
+$.getJSON('http://0.0.0.0:5001/api/v1/status/', function (data) {
+  if (data.status === 'OK') {
+    $('DIV#api_status').addClass('available');
+  } else {
+    $('DIV#api_status').removeClass('available');
+  }
+});
